@@ -1,0 +1,31 @@
+name: Deploy Azure Function App
+
+on:
+  push:
+    branches:
+      - main  # Adjust branch name as per your repository's default branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Azure CLI
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy Function App
+      run: |
+        az functionapp deployment source config-zip \
+          --resource-group pawait_group \
+          --name one-drive-function \
+          --src ./${{ github.workspace }}one-drive-function.zip
