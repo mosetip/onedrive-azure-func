@@ -36,7 +36,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Azure CLI Script
+    - name: Deploy Azure Function App
       uses: azure/CLI@v1
       with:
         azcliversion: 2.0.72
@@ -46,13 +46,3 @@ jobs:
           --resource-group pawait_group \
           --name one-drive-function \
           --src functionapp.zip
-
-    - name: Azure PowerShell Script
-      uses: azure/powershell@v2
-      with:
-        azPSVersion: 'latest'
-        inlineScript: |
-          $ErrorActionPreference = "Stop"
-          Connect-AzAccount -ServicePrincipal -TenantId ${{ secrets.AZURE_TENANT_ID }} -ApplicationId ${{ secrets.AZURE_CLIENT_ID }} -Credential (New-Object System.Management.Automation.PSCredential(${{ secrets.AZURE_CLIENT_ID }}, (ConvertTo-SecureString ${{ secrets.AZURE_CLIENT_SECRET }} -AsPlainText -Force)))
-          Set-AzContext -SubscriptionId ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          Set-AzFunctionApp -ResourceGroupName "pawait_group" -Name "one-drive-function" -ArchivePath "functionapp.zip"
