@@ -5,6 +5,9 @@ import requests
 import tempfile
 import azure.functions as func
 
+app = func.FunctionApp()  # Create an instance of FunctionApp
+
+@app.route(route="process", methods=["POST"])  # Decorate the main function with the route
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Processing request...')
 
