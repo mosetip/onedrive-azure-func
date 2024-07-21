@@ -26,7 +26,7 @@ jobs:
     - name: Archive function app
       run: |
         mkdir -p deployment
-        cp -r function.json host.json __init__.py requirements.txt deployment/
+        cp -r function.json host.json function_app.py requirements.txt deployment/
         cd deployment
         zip -r ../functionapp.zip .
         cd ..
